@@ -112,6 +112,14 @@ const RegistrationForm = () => {
       console.log('Form Submitted Successfully:', formData);
       alert('Registration Successful! Check console for data.');
       // Here you would typically trigger an API call
+      // Reset form state to initial empty values
+      setFormData({
+        fullName: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        dateOfBirth: '',
+      });
     } else {
       console.log('Validation Failed');
     }

@@ -1,11 +1,20 @@
 :root {
-  --primary-color: #007bff;
-  --primary-hover: #0056b3;
-  --error-color: #dc3545;
-  --text-color: #333;
-  --border-color: #ccc;
-  --bg-color: #f4f6f8;
-  --card-bg: #ffffff;
+  /* Futuristic Palette */
+  --bg-gradient: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+  --card-bg: rgba(255, 255, 255, 0.05); /* Ultra-low opacity for glass effect */
+  --card-border: rgba(255, 255, 255, 0.1);
+  
+  --primary-gradient: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%);
+  --primary-glow: rgba(0, 210, 255, 0.5);
+  
+  --text-main: #ffffff;
+  --text-muted: #b3b3b3;
+  
+  --input-bg: rgba(0, 0, 0, 0.3);
+  --input-border: #3f3f5f;
+  --input-focus: #00d2ff;
+  
+  --error-color: #ff4b4b; /* Bright red/pink for visibility on dark */
 }
 
 * {
@@ -13,14 +22,15 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  background-color: var(--bg-color);
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg-gradient);
+  background-attachment: fixed; /* Keeps gradient static on scroll */
   margin: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  color: var(--text-main);
 }
 
 .app-container {
@@ -29,69 +39,111 @@ body {
   padding: 20px;
 }
 
+/* Glassmorphism Card */
 .form-card {
-  background-color: var(--card-bg);
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: var(--card-bg);
+  backdrop-filter: blur(16px); /* The "Frosted Glass" blur effect */
+  -webkit-backdrop-filter: blur(16px); /* Safari support */
+  padding: 2.5rem;
+  border-radius: 16px;
+  border: 1px solid var(--card-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
 .form-title {
   margin-top: 0;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   text-align: center;
-  color: var(--text-color);
+  font-size: 1.8rem;
+  font-weight: 300;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; /* Gradient text effect */
 }
 
 .form-group {
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
+  position: relative;
 }
 
 .form-label {
   display: block;
   margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: var(--text-color);
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
 }
 
+/* Futuristic Input Fields */
 .form-input {
   width: 100%;
-  padding: 0.75rem;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
+  padding: 0.9rem;
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
   font-size: 1rem;
-  transition: border-color 0.2s;
+  color: var(--text-main);
+  transition: all 0.3s ease;
+}
+
+/* Change the calendar icon color in Date inputs */
+.form-input::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
 }
 
 .form-input:focus {
   outline: none;
-  border-color: var(--primary-color);
+  border-color: var(--input-focus);
+  box-shadow: 0 0 15px var(--primary-glow); /* Glowing edge */
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .form-input.error-border {
   border-color: var(--error-color);
+  box-shadow: 0 0 5px rgba(255, 75, 75, 0.3);
 }
 
 .error-message {
   color: var(--error-color);
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
-  display: block;
+  font-size: 0.8rem;
+  margin-top: 0.4rem;
+  display: flex;
+  align-items: center;
+  animation: fadeIn 0.3s ease-in-out;
 }
 
+/* Modern Gradient Button */
 .submit-btn {
   width: 100%;
-  padding: 0.75rem;
-  background-color: var(--primary-color);
+  padding: 1rem;
+  background: var(--primary-gradient);
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  margin-top: 1rem;
-  transition: background-color 0.2s;
+  margin-top: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
 }
 
 .submit-btn:hover {
-  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 210, 255, 0.5);
+}
+
+.submit-btn:active {
+  transform: translateY(0);
+}
+
+/* Subtle animation for errors */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
 }
