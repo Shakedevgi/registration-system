@@ -1,29 +1,32 @@
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, BeforeValidator
+from typing import Optional, Annotated
 from datetime import date
 
-class RegistrationRequest(BaseModel):
-    """
-    Schema for the registration request body.
-    Includes validation rules for frontend data.
-    """
-    fullName: str = Field(..., min_length=2, description="Full name of the user")
-    email: EmailStr = Field(..., description="Valid email address")
-    password: str = Field(..., min_length=6, description="Password with min 6 chars")
-    dateOfBirth: date = Field(..., description="Date of birth (YYYY-MM-DD)")
+# Helper for MongoDB ObjectId
+PyObjectId = Annotated[str, BeforeValidator(str)]
 
-    class Config:
-        schema_extra = {
+# 1. Schema for receiving data (Registration)
+class UserRegister(BaseModel):
+    fullName: str = Field(..., min_length=1)
+    email: EmailStr
+    password: str = Field(..., min_length=8)
+    dateOfBirth: date
+
+# 2. Schema for returning data (Response)
+class UserResponse(BaseModel):
+    id: Optional[PyObjectId] = Field(alias="_id", default=None)
+    email: EmailStr
+    fullName: str
+    dateOfBirth: date
+
+    model_config = {
+        "populate_by_name": True,
+        "json_schema_extra": {
             "example": {
+                "id": "651a2b...",
                 "fullName": "John Doe",
-                "email": "john@example.com",
-                "password": "SecretPassword123!",
-                "dateOfBirth": "2000-01-01"
+                "email": "user@example.com",
+                "dateOfBirth": "1999-05-12"
             }
         }
-
-class RegistrationResponse(BaseModel):
-    """
-    Schema for the successful registration response.
-    """
-    message: str
-    user_email: str
+    }

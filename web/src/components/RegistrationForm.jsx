@@ -109,18 +109,49 @@ const RegistrationForm = () => {
     const isValid = validate();
     
     if (isValid) {
-      console.log('Form Submitted Successfully:', formData);
-      alert('Registration Successful! Check console for data.');
-      // Here you would typically trigger an API call
-      // Reset form state to initial empty values
-      setFormData({
-        fullName: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        dateOfBirth: '',
+    const payload = {
+      fullName: formData.fullName,
+      email: formData.email,
+      password: formData.password,
+      dateOfBirth: formData.dateOfBirth,
+    };
+
+    fetch("http://localhost:8000/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then(async (res) => {
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw errorData;
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Registration success:", data);
+        alert("Registration successful!");
+
+        setFormData({
+          fullName: '',
+          email: '',
+          password: '',
+          confirmPassword: '',
+          dateOfBirth: '',
+        });
+      })
+      .catch((err) => {
+        console.error("Registration failed:", err);
+
+        if (err.detail) {
+          alert(err.detail); // backend error (409 etc.)
+        } else {
+          alert("Registration failed. Please try again.");
+        }
       });
-    } else {
+  } else {
       console.log('Validation Failed');
     }
   };

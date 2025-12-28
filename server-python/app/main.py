@@ -1,30 +1,24 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
 from app.routes import router
+from app.database import create_indexes
+from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI(
-    title="Registration System API",
-    description="Backend service for user registration",
-    version="1.0.0"
-)
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup: Ensure DB indexes exist
+    await create_indexes()
+    yield
+    # Shutdown: Clean up if necessary (Motor handles connection pooling automatically)
 
-# CORS Configuration
-# Allows the React frontend (running on localhost:3000) to communicate with this backend
-origins = [
-    "http://localhost:3000",
-]
+app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],   # TEMP: allow all
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Include Routes
 app.include_router(router)
-
-@app.get("/")
-async def root():
-    return {"message": "Registration System API is running"}
