@@ -40,12 +40,12 @@ The project is built in **incremental phases**, focusing on correctness, structu
 - Phase 1: Understanding & system design – ✅ Completed  
 - Phase 2: Web (React JS) – ✅ Completed  
 - Phase 3: Backend (FastAPI + MongoDB) – ✅ Completed  
-
+- Phase 4: Mobile app (React Native) - ✅ Completed  
 ---
 
 ## Upcoming Phases
 
-- Phase 4: Mobile app (React Native)
+- phase 4b: azure
 - Phase 5: OpenAI integration (NodeJS + Toast messages)
 - Phase 6: Extended AI chatbot (Hebrew, external platform, logging)
 
@@ -56,3 +56,4 @@ The project is built in **incremental phases**, focusing on correctness, structu
 - The backend currently runs locally.
 - Azure deployment will be handled after all core functionality is completed.
 - Each phase is committed separately to maintain clarity and traceability.
+#

@@ -16,3 +16,4 @@ def get_password_hash(password: str) -> str:
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     pre_hashed = _pre_hash(plain_password)
     return pwd_context.verify(pre_hashed, hashed_password)
+#
